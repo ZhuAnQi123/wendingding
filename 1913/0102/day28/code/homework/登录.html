@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #biggest {
+            width: 1000px;
+            height: 500px;
+            border: 1px solid #ccc;
+            margin: auto;
+            margin-top: 50px;
+            border-top: 3px solid royalblue;
+        }
+
+        .left {
+            background-image: url(./img/ffeac1e04062e1f92a1fa49bf5f39a1.png);
+            width: 500px;
+            height: 365px;
+            float: left;
+        }
+
+        .right {
+            width: 500px;
+            height: 100%;
+            float: left;
+        }
+
+        .header {
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+
+        .header li {
+            border-right: olive 1px solid;
+            float: left;
+            height: 100%;
+            width: 250px;
+            line-height: 50px;
+            box-sizing: border-box;
+            padding-left: 87px;
+        }
+
+        .header li:hover {
+            color: royalblue;
+        }
+
+        .current {
+            color: royalblue;
+            border-bottom: 1px solid royalblue;
+        }
+
+        .content {
+            width: 500px;
+            position: absolute;
+            left: 0;
+            top: 50px;
+            box-sizing: border-box;
+            padding-left: 20px;
+            padding-top: 5px;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        h2 {
+            font-weight: 300;
+            font-size: 20px;
+            margin-bottom: 10px;
+            float: left;
+            margin-right: 200px;
+        }
+
+        input {
+            width: 400px;
+            height: 50px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            padding-left: 10px;
+            font-size: 15px;
+        }
+
+        #checkbox {
+            width: 20px;
+            height: 20px;
+
+
+        }
+
+        .key {
+            width: 200px;
+            float: left;
+        }
+
+        h3 {
+            width: 100px;
+            margin-left: 50px;
+            height: 50px;
+            float: left;
+            line-height: 50px;
+            font-weight: normal;
+            font-size: 28px;
+        }
+
+        button {
+            color: white;
+            height: 50px;
+            width: 400px;
+            background-color: royalblue;
+            font-size: 20px;
+        }
+
+        .code {
+            width: 160px;
+            margin-left: 30px;
+            font-size: 15px;
+        }
+
+        span {
+            display: block;
+            padding-top: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="biggest">
+        <div class="left"></div>
+        <div class="right">
+            <ul class="header">
+                <li class="account current">账号密码登录</li>
+                <li class="phone">手机号登陆</li>
+                <div class="content show">
+                    <h2>Hi欢迎登录!</h2><a href="./注册.html">点我注册💊💊💊</a>
+                    <input type="text" placeholder="邮箱/手机号/用户名" class="username">
+                    <input type="text" placeholder="密码" class="password">
+                    <input type="text" class="key" placeholder="验证码">
+                    <h3>
+                        1598
+                    </h3>
+                    <button class="logIn">点击登录</button>
+                    <span><input type="checkbox" id="checkbox">记住密码，两周自动登录</span>
+                </div>
+                <div class="content">
+                    <h2>Hi欢迎登录!</h2><a href="">点我注册💊💊💊</a>
+                    <input type="text" placeholder="请输入宁的手机号">
+                    <input type="text" placeholder="请输入宁的验证码" class="key">
+                    <button class="code">点击获取您的验证码</button>
+                    <button class="logIn">点击登录</button>
+                    <span><input type="checkbox" id="checkbox">记住密码，两周自动登录</span>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+
+
+</body>
+<script src="../client/jquery-3.4.1.js"></script>
+<script src="./Cookie.js"></script>
+<script>
+
+    //实现基础切换功能
+    $('.header li').click(function () {
+        $(this).addClass('current').siblings().removeClass('current')
+        let index = $(this).index();
+        $('#biggest').find('.content').eq(index).addClass('show').siblings().removeClass('show')
+    })
+
+    //   * 要求1：注册和登录的时候使用手机号码作为用户名，用户名和密码需要进行正则校验。
+    //   * 要求2：使用jQuery框架来写JavaScript代码，注册和登录功能需要使用jQuery中的Ajax模块来发送网络请求。
+    $.ajax({
+        type: "get",
+        url: "./getjson.php",
+        data: "data",
+        dataType: "json",
+        success: function (response) {
+
+            //如果检测到cookie，自动跳转
+            if (document.cookie) {
+                $('.username').val(document.cookie.split('=')[0])
+                $('.password').val(document.cookie.split('=')[1])
+                $('.key').val(1598)
+                $('.logIn').trigger("click");
+            } else {
+                $('.logIn').click(function () {
+                    if ($('.username').val() && $('.password').val() && $('.key').val()) {
+                        //非空
+                        //bug--->map是无法跳出循环的，但数组用every可以
+                        response.account.every(function (elementOrValue, indexOrKey) {
+                            if ($('.username').val() == elementOrValue && response.password[0] == $('.password').val() && $('.key').val() == 1598) {
+                                //登录成功：{"status":"success",msg:"恭喜您，登录成功！"}
+
+                                //   * 要求3：利用Cookie来实现2周内免登录功能。
+                                if ($("#checkbox").is(':checked')) {
+                                    Cookie.setItem($('.username').val(), $('.password').val(), 14)
+                                }
+                                window.open('./成功.html')
+                            }
+                            if ($('.username').val() == elementOrValue && response.password[0] != $('.password').val() && $('.key').val() == 1598) {
+                                //登录失败：{"status":"error",msg:"登录失败，密码不正确！"} 
+                                alert('密码错辽')
+                                return false;
+                            }
+                            if ($('.username').val() != elementOrValue && $('.key').val() == 1598) {
+                                //登录失败：{"status":"error",msg:"登录失败，用户名不存在！"}
+                                alert('用户名不存在')
+                                return false;
+                            }
+                        });
+                    } else {
+                        alert('输入完整信息')
+                    }
+                })
+            }
+
+            //     注册成功：{"status":"success",msg:"注册成功"}
+            //     注册失败：{"status":"error",msg:"注册失败，该账户已经存在"}
+
+        }
+    });
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../jquery-3.4.1(1).js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        body {
+            width: 100%;
+        }
+
+        .rick {
+            margin: auto;
+            border: 1px solid #ccc;
+            width: 80%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .morty {
+            border: springgreen 1px solid;
+            width: 200px;
+            height: 300px;
+            margin-bottom: 10px;
+        }
+
+        img {
+            width: 100%;
+            height: 60%;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 25px;
+            color: tomato;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            width: 100%;
+            font-size: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-bottom: 5px;
+        }
+
+
+        .disCount {
+            color: blue;
+        }
+
+        .shopName {
+            border: 1px solid orange;
+            width: 45px;
+            height: 18px;
+            color: orangered;
+            border-radius: 10%;
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- <ul id='rick'> -->
+    <!-- <li class="morty">
+            <img src="https://imgservice1.suning.cn/uimg1/b2c/image/87i7RIzHiGjCQwYUCzpRHg.jpg_400w_400h_4e" alt="">
+            <span class="price">￥136</span>
+            <h4 class="title">禧美海产 厄瓜多尔白虾（ASC认证）1800g 盒装 90-108只 原装进口 海鲜水产</h4>
+            <h4 class="disCount">20万+评价</h4>
+            <h4 class="shopName">皮皮虾</h4>
+
+        </li> -->
+    <!-- <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li>
+        <li class="morty"></li> -->
+    <!-- </ul> -->
+</body>
+
+<script>
+    $.ajax({
+        type: "get",
+        url: "./suning.php",
+        dataType: "json",
+        success: function (response) {
+            //成功拿到数据之后构造实例对象
+            //调用实例函数
+            let m = new Manerger(response);
+            m.init();
+            console.log('ok');
+        }
+    });
+
+    //class写法构造函数
+    class Manerger {
+        constructor(data) {
+            this.data = data;
+            this.root = null;
+        }
+        init() {
+            this.root = document.createElement('ul');
+            this.root.classList.add('rick')
+            var Html = this.data.map(function (item) {
+                return `<li class="morty">
+            <img src=${item.src}>
+            <span class="price">￥${item.price}</span>
+            <h4 class="title">${item.title}</h4>
+            <h4 class="disCount">${item.disCount}</h4>
+            <h4 class="shopName">皮皮虾</h4>
+        </li>`
+            })
+            this.root.innerHTML = Html;
+            document.body.appendChild(this.root);
+
+        }
+    }
+
+
+
+
+
+
+
+
+</script>
+
+</html>

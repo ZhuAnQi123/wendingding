@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #rick {
+            width: 350px;
+            border: 1px solid #ccc;
+            height: auto;
+        }
+
+        .nav {
+            width: 100%;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .nav li {
+            float: left;
+            border: 1px solid #ccc;
+            width: 79px;
+            text-align: center;
+            font-size: 12px;
+            height: 100%;
+            padding-top: 6px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .nav p {
+            height: 98%;
+            width: 15px;
+            font-weight: 800;
+            float: left;
+            border: 1px solid #ccc;
+        }
+
+        .lefter {
+            float: left;
+            font-weight: 600;
+            font-size: 20px;
+            color: red;
+            margin-top: 9px;
+        }
+
+        .righ {
+            float: right;
+            font-size: 15px;
+            color: #ccc;
+            margin-top: 12px;
+        }
+
+        .header {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 50px;
+            box-sizing: border-box;
+            padding-top: 5px;
+        }
+
+        .cur {
+            font-size: 500px;
+            color: white;
+            background-color: orangered;
+        }
+
+        .main {
+            width: 100%;
+            height: auto;
+        }
+
+        .main li {
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+            padding-top: 10px;
+            padding-left: 10px;
+            border: 1px #ccc dotted;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main .current {
+            width: 100%;
+            height: 200px;
+        }
+
+        .id {
+            float: left;
+            background-color: #ccc;
+            width: 15px;
+            height: 15px;
+            color: white;
+            padding-left: 2px;
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+
+        .title {
+            float: left;
+            margin-left: 30px;
+            font-size: 13px;
+            color: blue;
+        }
+
+        .curr {
+            background-color: tomato;
+        }
+
+
+        .pic {
+            position: absolute;
+            left: 10px;
+            top: 55px;
+            height: 130px;
+            width: 90px;
+        }
+
+        .text {
+            font-size: 12px;
+            position: absolute;
+            left: 120px;
+            top: 50px;
+            line-height: 25px;
+        }
+
+        #rick {
+            float: left;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <div class="rick">
+        <div class="header">
+            <p class="lefter">娱乐</p>
+            <p class="righ">更多 > </p>
+        </div>
+        <ul class="nav">
+            <li class="cur">电影</li>
+            <li>电视剧</li>
+            <li>综艺</li>
+            <li>动漫</li>
+        </ul>
+        <ul class="main">
+            <li class="current">
+                <p class="id curr">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id curr">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id curr">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+            <li>
+                <p class="id">1</p>
+                <p class="title">hahaha</p>
+            </li>
+        </ul>
+    </div> -->
+</body>
+<script src="../homework/DATA.JS"></script>
+<script>
+    /* 001-提供构造函数 */
+    function Daddy() {
+        this.root = null;
+    }
+
+
+    /* 002-设置原型对象 */
+    Daddy.prototype = {
+        init: function () {
+            this.creatpage();
+            this.insertpage();
+            this.move();
+        },
+
+        creatpage: function () {
+            this.root = document.createElement("div");
+            this.root.id = "rick";
+            var html = `<div class="header">
+            <p class="lefter">娱乐</p>
+            <p class="righ">更多 > </p>
+        </div>
+        <ul class="nav">
+            <p class="prev"> < </p>
+            <li class="cur">电影</li>
+            <li>电视剧</li>
+            <li>综艺</li>
+            <li>动漫</li>
+            <p class="next"> > </p>
+        </ul>
+        <ul class="main">
+        </ul>`
+            this.root.innerHTML = html;
+        },
+
+        //插入节点
+        insertpage: function () {
+            document.body.appendChild(this.root);
+        },
+
+        //实现功能
+        move: function () {
+            //001渲染生成li
+            var main = this.root.querySelector(".main");
+
+
+
+            //002拼接生成一开始的数据
+            var htmla = data0.map(function (item) {
+                return `  <li>
+                <p class="id">${item.id}</p>
+                <p class="title">${item.title}</p>
+            </li>`
+            }).join('');
+            main.innerHTML = htmla;
+
+
+
+
+
+            //给上面的导航ul设置点击后变红
+            var nav = this.root.querySelector(".nav");
+            var navinner = this.root.querySelectorAll(".nav li");
+            let num = 0;
+
+            nav.onclick = function (ev) {
+                if (ev.target.tagName == 'LI') {
+                    for (var i = 0; i < navinner.length; i++) {
+                        navinner[i].index = i;
+                        navinner[i].className = '';
+                    }
+                    num = ev.target.index;
+                    ev.target.classList.add('cur');
+
+
+                    //点击details的innerHTML切换
+                    if (ev.target.innerText == '电视剧' || ev.target.innerText == '动漫') {
+                        // 切换下面的内容
+                        var htmlb = data1a.map(function (item) {
+                            return `  <li>
+                         <p class="id">${item.id}</p>
+                         <p class="title">${item.title}</p>
+                     </li>`
+                        }).join('');
+                        main.innerHTML = htmlb;
+                        addMouse(data1a);
+                    }
+                    if (ev.target.innerText == '综艺') {
+                        // 切换下面的内容
+                        var htmlc = data1b.map(function (item) {
+                            return `  <li>
+                         <p class="id">${item.id}</p>
+                         <p class="title">${item.title}</p>
+                     </li>`
+                        }).join('');
+                        main.innerHTML = htmlc;
+                        addMouse(data1b);
+                    }
+                    if (ev.target.innerText == '电影') {
+                        // 切换下面的内容
+                        main.innerHTML = htmla;
+                        addMouse(data0);
+                    }
+                }
+
+
+                if (ev.target.className == 'prev') {
+                    num--;
+                    for (var i = 0; i < navinner.length; i++) {
+                        navinner[i].index = i;
+                        navinner[i].className = '';
+                    }
+                    if (num < 0) {
+                        num = 0;
+                    } if (num > navinner.length - 1) {
+                        num = navinner.length - 1
+                    }
+                    navinner[num].classList.add('cur');
+                } if (ev.target.className == 'next') {
+                    num++;
+                    for (var i = 0; i < navinner.length; i++) {
+                        navinner[i].index = i;
+                        navinner[i].className = '';
+                    }
+                    if (num < 0) {
+                        num = 0;
+                    } if (num > navinner.length - 1) {
+                        num = navinner.length - 1
+                    }
+                    navinner[num].classList.add('cur');
+                }
+            }
+
+
+
+
+            addMouse(data0);
+
+
+            //设置details盒子的动态效果
+            function addMouse(data) {
+                var _list = main.querySelectorAll("li");
+                _list[0].classList.add('current');
+                for (var i = 0; i < _list.length; i++) {
+                    var details = document.createElement("div");
+                    details.innerHTML = `
+            <img src="${data[i].src}" class="pic">
+            <span class="text">${data[i].text}</span >`
+                    _list[i].appendChild(details)
+
+                    _list[i].onmouseenter = function (ev) {
+                        //排他
+                        for (var j = 0; j < _list.length; j++) {
+                            _list[j].classList.remove('current');
+                        }
+                        ev.target.classList.add('current');
+                    }
+                }
+
+
+                //前3个的id都是亮的
+                var light = main.querySelectorAll('li p');
+                light[0].classList.add('curr');
+                light[2].classList.add('curr');
+                light[4].classList.add('curr');
+
+
+            }
+
+        }
+    }
+
+
+    /* 003-函数构造实例对象--并调用原型对象 */
+    var daddy = new Daddy().init();
+    var daddy = new Daddy().init();
+</script>
+
+</html>

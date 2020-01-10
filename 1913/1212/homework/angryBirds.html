@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .zuo {
+            width: 150px;
+            height: 100px;
+            position: absolute;
+        }
+
+        .you {
+            width: 150px;
+            height: 100px;
+            transform: rotateY(180deg);
+            position: absolute;
+
+        }
+
+        .shang {
+            width: 150px;
+            transform: rotate(90deg);
+            height: 100px;
+            position: absolute;
+            margin-left: 20px;
+        }
+
+        .xia {
+            width: 150px;
+            position: absolute;
+            height: 100px;
+            transform: rotate(270deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bird">
+        <img class="zuo" src="../代码/img/bird.jpg" alt="">
+    </div>
+</body>
+<script>
+    //1.找节点
+    var img = document.querySelector('img');
+    //2.键盘事件
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        //拿按下的键盘对应的值接下来比较
+        var code = e.which || e.keyCode;
+        var speed = 10;
+
+        switch (code) {
+            case 37:
+                img.className = 'zuo'
+                var left = img.offsetLeft - speed;
+                //临界值判断
+                if (left < -img.offsetWidth) {
+                    left = window.innerWidth;
+                }
+                img.style.left = left + 'px';
+
+                break;
+            case 38:
+                img.className = 'shang'
+                var top = img.offsetTop - speed;
+                img.style.top = top + 'px';
+                break;
+
+            case 39:
+                img.className = 'you'
+                var left = img.offsetLeft + speed;
+                img.style.left = left + 'px';
+
+                break;
+
+            case 40:
+                img.className = 'xia'
+                var top = img.offsetTop + speed;
+                img.style.top = top + 'px';
+                break;
+        }
+        // console.log(left)
+    }
+
+
+</script>
+
+</html>

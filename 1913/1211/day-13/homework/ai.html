@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            list-style: none
+        }
+
+        .box {
+            margin: 50px auto;
+            width: 600px;
+            position: relative;
+        }
+
+        ul {
+            width: 100%;
+            /* margin: 5px; */
+            padding: 2px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #666;
+            border-radius: 10px;
+        }
+
+        li {
+            padding: 0 8px;
+            margin: 2px;
+            background: #ccc;
+            float: left;
+            line-height: 30px;
+            height: 30px;
+            border-radius: 10px;
+            clear: both;
+        }
+
+        .my-msg {
+            float: right;
+            background: #58bc58;
+            color: #fff
+        }
+
+        textarea {
+            margin: 5px;
+            width: 100%;
+            min-height: 50px;
+        }
+
+        .status {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #555;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul>
+            <!-- <li class="my-msg">在吗？</li>
+                <li>在！</li>
+                <li class="my-msg">有空吗？</li>
+                <li>没空</li>
+                <li>今天天气如何?</li> -->
+        </ul>
+        <textarea class="text"></textarea>
+        <button class="btn">发送消息</button>
+        <div class="status">对方正在输入....</div>
+    </div>
+</body>
+<script>
+    var oul = document.querySelector('ul');
+    var btn = document.querySelector('.btn');
+
+    //1.创建两个数组
+    var arr = ['hello', '你什么尺寸？', '都会什么技能？', '能不能今晚上班', '几岁了？']
+    var arr2 = ['hi', '18cm', '吹拉弹唱样样俱到', '可', '45']
+    btn.onclick = function () {
+        var text = document.querySelector('.text').value.trim();
+        //2.拿到输入框的值后创建节点
+        var mli = document.createElement('li');
+        mli.className = 'my-msg';
+        mli.innerText = text;
+        console.log(mli);
+        //3.插入节点到页面
+        oul.appendChild(mli);//注意这个框不用双引哦
+        //4.设置回复框的内容
+        var index = arr.indexOf(text);
+        var uli = document.createElement('li');
+
+        //5.正在输入。。
+        var s = parseInt(Math.random() * 3000);
+        var status = document.querySelector('.status');
+        setTimeout(function () {
+            status.style.display = 'block';
+
+        }, s);
+    }
+</script>
+
+</html>

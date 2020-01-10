@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 文件上传 -->
+    <!-- (1) 请求路径 -->
+    <!-- (2) 请求方法(文件上传只能使用POST请求) -->
+    <!-- (3) 参数(文件-value) -->
+    <!-- (4) 设置enctype属性，表明这是一个文件上传请求 -->
+
+    <form action="./files.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="fileName">
+        <!-- key+fileName value+文件 -->
+        <input type="submit" value="提交">
+    </form>
+
+    
+</body>
+
+</html>

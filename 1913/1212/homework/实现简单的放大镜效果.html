@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>实现简单的放大镜效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bigimg {
+            width: 500px;
+            height: 500px;
+            float: left;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .imgbox {
+            width: 500px;
+            height: 200px;
+            padding: 0;
+        }
+
+        .imgbox img {
+            height: 100px;
+            width: 110px;
+            float: left;
+            border-right: 2px solid skyblue;
+            border-left: 2px solid skyblue;
+        }
+
+        .left,
+        .right {
+            height: 100px;
+            width: 20px;
+            float: left;
+            background-color: skyblue;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .details {
+            width: 500px;
+            height: 500px;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rick {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .morty {
+            width: 500px;
+            height: 500px;
+            position: relative;
+        }
+
+        .mask {
+            width: 200px;
+            height: 200px;
+            z-index: 2;
+            cursor: crosshair;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: rgb(17, 22, 19, 0.3);
+            display: none;
+            pointer-events: none;
+        }
+
+        .details img {
+            position: absolute;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rick">
+        <div class="morty">
+            <img src="../代码/img/banner1.jpg" class="bigimg">
+            <div class="mask"></div>
+        </div>
+        <ul class="imgbox">
+            <div class="left">
+                < </div> <img src="../代码/img/banner2.jpg">
+                    <img src="../代码/img/banner3.jpg">
+                    <img src="../代码/img/banner4.jpg">
+                    <img src="../代码/img/banner5.jpg">
+                    <div class="right">></div>
+        </ul>
+    </div>
+
+    <div class="details">
+        <!-- <img src="../代码/img/banner1.jpg" alt=""> -->
+    </div>
+</body>
+<script>
+    //attention:实际计算mask大小是要经过计算的----------mask/bigimg=detail盒子/图片大小
+    //1.找节点嗷小可爱加油♥
+    var morty = document.querySelector('.morty');
+    var mask = document.querySelector('.mask');
+    var details = document.querySelector('.details');
+
+    //2.鼠标移入mask出现
+    //bug--->鼠标移入到mask范围不算morty，导致闪现
+    //解决：1.给mask写pointer-events: none; 这种兼容性非常差，不建议。
+    //解决：2.在mask和morty之间加一个盒子，给盒子设置绝对定位，top=0,left=0
+
+    morty.onmouseenter = function () {
+        mask.style.display = 'block';
+        details.innerHTML = '<img src="../代码/img/banner1.jpg" alt="">'
+    }
+
+    //2.鼠标移出mask隐藏
+    morty.onmouseout = function () {
+        mask.style.display = 'none';
+        details.innerHTML = ''
+    }
+
+    //3.计算遮罩的左右距离并且添加上去
+    morty.onmousemove = function (ev) {
+        var lmask = ev.pageX - mask.offsetWidth / 2;
+        var tmask = ev.pageY - mask.offsetHeight / 2;
+        //设置临界值
+        if (lmask < 0) {
+            lmask = 0;
+        } if (tmask < 0) {
+            tmask = 0;
+        } if (lmask > morty.offsetWidth - mask.offsetWidth) {
+            lmask = morty.offsetWidth - mask.offsetWidth;
+        } if (tmask > morty.offsetHeight - mask.offsetHeight) {
+            tmask = morty.offsetHeight - mask.offsetHeight;
+        }
+        mask.style.left = lmask + 'px';
+        mask.style.top = tmask + 'px';
+
+        //设置比例为imask最大值与details最大值相比
+        var maxpic = document.querySelector('.details img');
+        var scaleX = (maxpic.offsetWidth - mask.offsetWidth) / (morty.offsetWidth - mask.offsetWidth);
+        var scaleY = (maxpic.offsetHeight - mask.offsetHeight) / (morty.offsetHeight - mask.offsetHeight);
+        // console.log(scaleX, scaleY) //0.5   0.5
+        var ldetails = lmask / -scaleX;
+        var tdetails = tmask / -scaleY;
+        console.log(ldetails, tdetails)
+
+        //给右边的大图添加上样式
+        //bug:overflow:hidden无效--给父元素设置position：relative完美解决
+        maxpic.style.top = tdetails + 'px';
+        maxpic.style.left = ldetails + 'px';
+
+        //实现下面的小盒子逐个切换
+
+    }
+
+</script>
+
+</html>

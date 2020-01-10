@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 300px;
+            height: 40px;
+            border: springgreen 1px solid;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        button {
+            height: 40px;
+            border: springgreen 1px solid;
+            font-size: 13px;
+            width: 90px;
+            color: darkcyan;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>加入1药网，吃药根本停不下来</h1>
+    <input type="text" placeholder="您的账号名" class="username">
+    <input type="text" placeholder="您的密码" class="password">
+    <button>马上注册！</button>
+</body>
+<script src="../client/jquery-3.4.1.js"></script>
+<script>
+    $.ajax({
+        type: "get",
+        url: "./getjson.php",
+        data: "data",
+        dataType: "json",
+        success: function (response) {
+            $('button').click(function () {
+                response.account.every(function (Value, index) {
+                    if ($('.username').val() == Value) {
+                        alert('此用户名已被注册')
+                    } else {
+                        //将用户名&&密码存入json数据
+                        response.account.push($('.username').val())
+                        response.password.push($('.password').val())
+
+                        console.log(response);
+                    }
+                })
+            })
+
+
+        }
+    });
+
+
+
+
+</script>
+
+</html>

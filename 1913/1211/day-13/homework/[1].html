@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插入表格案例</title>
+    <style>
+        table {
+            margin: auto;
+        }
+
+        .rick {
+            margin: auto;
+            margin-left: 280px;
+        }
+
+        td {
+            border: 1px solid yellow;
+            width: 200px;
+            height: 30px;
+            text-align: center;
+        }
+
+        button {
+            width: 50px;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rick"> <input type="text" placeholder="输入姓名" id="name">
+        <input type="text" placeholder="输入国籍" id="nation">
+        <input type="text" placeholder="输入成名曲" id="song">
+        <input type="text" placeholder="输入专辑" id="albm">
+        <button class="btn">提交</button>
+    </div>
+    <table>
+        <tr>
+            <td>姓名</td>
+            <td>国籍</td>
+            <td>成名曲</td>
+            <td>新专</td>
+        </tr>
+
+    </table>
+</body>
+<script>
+
+    //找节点
+    var _table = document.querySelector('table');
+    var btn = document.querySelector('.btn');
+    btn.onclick = function () {
+        //拿到数值
+        var name = document.querySelector('#name').value;
+        var nation = document.querySelector('#nation').value;
+        var song = document.querySelector('#song').value;
+        var albm = document.querySelector('#albm').value;
+
+        //创建节点
+        var tdname = document.createElement('td');
+        var tdnation = document.createElement('td');
+        var tdsong = document.createElement('td');
+        var tdalbm = document.createElement('td');
+
+        //设置节点的innerText
+        tdname.innerText = name;
+        tdnation.innerText = nation;
+        tdsong.innerText = song;
+        tdalbm.innerText = albm;
+
+        //插入节点---创建一个tr插入？？
+        var tr = document.createElement('tr');
+        tr.appendChild(tdname)
+        tr.appendChild(tdnation)
+        tr.appendChild(tdsong)
+        tr.appendChild(tdalbm)
+        _table.appendChild(tr);
+
+        //插入成功后清空输入框
+        var _input = document.querySelectorAll('input');
+        for (var i in _input) {
+            _input[i].value = '';
+        }
+    }
+
+</script>
+
+</html>

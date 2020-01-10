@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标移入替换图片案例</title>
+    <style>
+        .banner {
+            width: 800px;
+            height: 400px;
+            border: 2px solid yellow;
+            border-radius: 10%;
+            margin-bottom: 10px;
+            background: url(../img/0.jpg);
+            background-size: 50%;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            background-color: orange;
+            border-radius: 50%;
+            float: left;
+            margin-right: 150px;
+            list-style: none;
+        }
+
+        .circle1 {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            float: left;
+            list-style: none;
+            margin-right: 150px;
+        }
+
+        .daddy {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="daddy">
+        <div class="banner"></div>
+        <ul class="hehe">
+            <li class="circle"></li>
+            <li class="circle"></li>
+            <li class="circle"></li>
+            <li class="circle"></li>
+            <li class="circle"></li>
+        </ul>
+    </div>
+</body>
+<script>
+    //实现轮播图效果--鼠标移入小点后，小点class名改变为，banner的背景改变
+    var lists = document.querySelectorAll('.hehe li');
+    var banner = document.querySelector('.banner');
+
+    for (var i = 0; i < lists.length; i++) {
+        lists[i].index = i;
+        //改变list的class名 && 改变父节点的兄弟元素的路径
+        lists[i].onmouseover = function () {
+            console.log(banner.style)
+            for (var j = 0; j < lists.length; j++) {
+                lists[j].className = 'circle';
+            }
+            this.className = 'circle1';
+            console.log("url(../img/" + this.index + ".jpg)")
+            banner.style.backgroundImage = "url(../img/" + this.index + ".jpg)";
+            // banner.style.heigth = 20 + 'px';
+        }
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./jquery-3.4.1(1).js"></script>
+    <script src="../code/client/lib/Cookie.js"></script>
+    <style type="text/css">
+        body {
+            background-color: rgb(177, 208, 224);
+            font: normal 12px Trebuchet MS;
+            color: #000;
+        }
+
+        form {
+            width: 220px;
+            padding: 10px;
+            background-color: #DDEEF6;
+            box-shadow: 0px 0px 10px 0px #888888;
+            border: 1px solid #DDEEF6;
+            border-radius: 6px;
+            margin: auto;
+        }
+
+        .roundedCorners-textbox {
+            border: 1px solid #999;
+            width: 160px;
+        }
+
+        .checkbox {
+            margin-left: 30px;
+            border: 1px solid #999;
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="get">
+        <label>账号</label>
+        <input id="username" name="username" type="text" /><br /><br />
+        <label>密码</label>
+        <input id="password" name="password" type="text" /><br /><br />
+        <label><input id="checkbox" type="checkbox" class="checkbox" />
+            7天免登录</label>
+        <br /><br />
+        <input type="button" value="确定" id="btnSubmit" />
+        <input type="reset" value="清空" />
+    </form>
+
+    <script>
+
+
+
+        //实现思路：
+        //先用AJAX传输json数据，检查输入框的时候否匹配
+        $.ajax({
+            type: "get",
+            url: "./password.php",
+            data: "data",
+            dataType: "json",
+            success: function (response) {
+                let btn = document.querySelector('#btnSubmit')
+                let username = document.querySelector('#username');
+                let password = document.querySelector('#password');
+                let name = [];
+                let pass = [];
+                response.forEach(element => {
+                    name.push(element.account)
+                    pass.push(element.password)
+
+                });
+
+                btn.onclick = function () {
+                    let _username = username.value;
+                    let _password = password.value - 0;
+
+                    if (name.indexOf(_username) == pass.indexOf(_password) && name.indexOf(_username) >= 0 && pass.indexOf(_password) >= 0) {
+                        //用户密码匹配，可以登录
+
+                        //[1] 检查Cookie中是否保存有用户名和密码，如果保存那么就直接发送请求登录
+                        if (Cookie.getKeys().indexOf(_username) == -1 && $("#checkbox").is(':checked')) {
+                            // 如果cookie没有保存用户名&&选中复选框
+                            Cookie.setItem(_username, _password, 7)
+                        }
+                        window.location.href = './success.html';
+
+                    } else {
+                        alert('请输入正确的用户名&密码')
+                    }
+                }
+                //如果检测到cookie，window.location.href = './success.html';
+
+
+
+
+            }
+        });
+
+
+        //     console.log($("#checkbox").is(':checked'));
+
+
+        // }
+
+        //[3] 网络请求成功后应该跳转
+
+    </script>
+</body>
+
+</html>

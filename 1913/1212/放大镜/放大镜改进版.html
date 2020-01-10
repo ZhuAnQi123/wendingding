@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul li {
+            list-style: none;
+        }
+        body {
+            height: 1300px;
+        }
+        .container {
+            margin-left: 100px;
+            /* margin-top: 200px; */
+        }
+        .magnify-box {
+            width: 450px;
+            height: 450px;
+            position: relative;
+        }
+        .min-img {
+            border: solid 1px #000;
+            width: 450px;
+            height: 450px;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .min-img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .max-img {
+            width: 355.50px;
+            height: 355.50px;
+            overflow: hidden;
+            position: absolute;
+            left: 452px;
+            top: 20px;
+            display: none;
+        }
+        .opacity-top {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+        }
+        .max-img img {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .mask {
+            width: 200px;
+            position: absolute;
+            height: 200px;
+            left: 0;
+            top: 0;
+            background: rgba(0,0,0,.3);
+            display: none;
+            /* 让该元素不会成为鼠标事件的目标元素 */
+            /* pointer-events: none; */
+        }
+        .img-list {
+            width: 450px;
+            height: 100px;
+            box-sizing: border-box;
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+        .img-list ul {
+            overflow: hidden;
+
+        }
+        .img-list ul li {
+            float: left;
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            border-right: 1px solid #000;
+            border-left: solid 1px #000;
+            box-sizing: border-box;
+
+        }
+        .img-list ul li img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="magnify-box">
+            <div class="min-img">
+                <img src="./images/min1.jpg">
+                <div class="mask"></div>
+                <div class="opacity-top"></div>
+            </div>
+            <!-- 如果将遮罩元素写在小图片盒子外 会出现盒子闪烁 -->
+            <!-- 
+                1. 当鼠标移入这个图片盒子  --- 要让遮罩显示
+                2. 因为鼠标实在遮罩的中间，鼠标就会在这个遮罩盒子上
+                3. 因为遮罩实在图片盒子外面
+                4. 相当于移动到这个图片盒子的外面
+                5. 触发鼠标移出事件
+                6. 隐藏遮罩元素
+                7. 鼠标又马上落到的图片盒子容器上
+                8. 当鼠标移入这个图片盒子  --- 要让遮罩显示
+                9. ....
+             -->
+            <!-- <div class="mask"></div> -->
+            <div class="max-img">
+                <img src="./images/max1.jpg">
+            </div>
+        </div>
+        <div class="img-list">
+            <ul>
+                <li><img src="./images/min1.jpg" alt=""></li>
+                <li><img src="./images/min2.jpg" alt=""></li>
+                <li><img src="./images/min3.jpg" alt=""></li>
+                <li><img src="./images/min4.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 
+        为了使遮罩元素所在区域完全在放大盒子中显示
+
+        黑色遮罩的宽高 / 小图片的宽高 == 大图片可见宽高/ 大图片的宽高
+        mask / minImg == maxImg / max
+        
+    -->
+    <script>
+        // 获取元素 
+        var magnify = document.querySelector('.magnify-box');
+        var minBox = document.querySelector('.min-img');
+        var minImg = document.querySelector('.min-img img');
+        var mask = document.querySelector('.mask');
+        var maxBox = document.querySelector('.max-img');
+        var maxImg = document.querySelector('.max-img img');
+
+        // 1. 给小图片盒子绑定鼠标移入事件
+        minBox.onmouseenter = function(){
+            // 2. 让黑色遮罩显示
+            mask.style.display= "block";
+            maxBox.style.display= "block";
+        }
+
+        // 3. 给小图片盒子添加一个鼠标移出 事件
+        minBox.onmouseleave = function(){
+            // 4. 隐藏遮罩和大图片盒子
+            mask.style.display= "none";
+            maxBox.style.display= "none";
+        }
+
+        // 5. 给小图片盒子绑定鼠标移动事件
+
+        minBox.onmousemove = function(e){
+            // 鼠标到页面窗口可视区域的顶部的距离
+            // 计数遮罩定位的坐标
+            // bug1 如果页面中有滚动条那么使用e.clientX/Y 将会出现bug ==> 改用e.pageX/Y
+            // e.pageX/Y 参考的是文档(html,document)的最顶部
+            var y = e.offsetY - mask.offsetHeight/2;
+            var x = e.offsetX- mask.offsetWidth/2;
+            
+            console.log(e.offsetY,e.offsetX);
+            // e.offsetX/e.offsetX
+            // 鼠标所在的目标元素中的坐标
+            // 1. 鼠标移动图片盒子
+            // 2. 获取鼠标所在图片盒子中的坐标 (400, 400)
+            // 3. 让遮罩定位到鼠标的中心
+            // 4. 鼠标就落在了遮罩上，那么事件目标变成遮罩元素
+            // 5. 获取鼠标所在遮罩中的坐标 (100, 100)
+            // 6. 让遮罩定位到鼠标的中心
+            // 7. .....
+            //  offsetTop/offsetLeft
+            // 获取元素距离有相对定位的元素的顶部的距离(如果父元素都没有相对定位，那么就是文档顶部)
+            // console.log(x, y)
+
+            // 设置遮罩移动的最大与最小范围
+            if(x<=0){
+                x = 0;
+            }
+            if(y<=0){
+                y = 0;
+            }
+
+            var maxX = minBox.offsetWidth - mask.offsetWidth
+            var maxY = minBox.offsetHeight - mask.offsetHeight
+            // console.log(maxX, maxY)
+            if(x>maxX){
+                x = maxX;
+            }
+            if(y> maxY){
+                y = maxY;
+            }
+
+
+            mask.style.top = y + "px";
+            mask.style.left = x + "px";
+
+            // 计算大图片移动的比例， 可以看作小遮罩移动一像素，大图片需要移动的距离
+            var proportionX = (maxImg.offsetWidth - maxBox.offsetWidth) / maxX;
+            var proportionY = (maxImg.offsetHeight - maxBox.offsetHeight) / maxY;
+            // console.log(magnify.offsetTop);
+            
+            // 移动的是里面的大图片，不是大盒子
+            // 因为大图片移动方向与遮罩移动的方向相反所以要加负号
+            maxImg.style.left = -x * proportionX + "px";
+            maxImg.style.top = -y * proportionY + "px";
+
+        }
+
+        // 获取所有的图片列表
+        var imgs = document.querySelectorAll(".img-list img");
+
+        // 给所有的img标签绑定点击事件 切换图片地址
+        for(var i = 0; i<imgs.length; i++){
+            imgs[i].index = i;
+            imgs[i].onclick = function(){
+                // 第一个图片的索引是0, 但是我们第一张图片的名字 min1.jpg
+                minImg.src = `images/min${this.index+1}.jpg`;
+                maxImg.src = `images/max${this.index+1}.jpg`;
+            }
+        }
+    </script>
+</body>
+</html>

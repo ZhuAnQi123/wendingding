@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>实现选项卡切换效果</title>
+    <style>
+        .meun {
+            width: 1000px;
+            height: 60px;
+            border: 3px solid yellow;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+            margin: 0;
+        }
+
+        .meun li {
+            width: 12%;
+            list-style: none;
+        }
+
+        .word {
+            width: 100%;
+            background-color: lightgoldenrodyellow;
+            height: 60px;
+            text-align: center;
+        }
+
+        .detail {
+            width: 1006px;
+            height: 200px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <ul class="meun">
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+            <li>
+                <div class="word">展开</div>
+                <div></div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    //找节点
+    var alis = document.querySelectorAll('.meun li');
+    //1.遍历lis，绑定点击事件，点击时给他设置class名为detail和文字
+    for (var i = 0; i < alis.length; i++) {
+        alis[i].dataset.index = i; //这样就有了this.dataset.index
+        alis[i].onclick = function () {
+            for (var j = 0; j < alis.length; j++) {
+                alis[j].lastElementChild.className = ''; alis[j].lastElementChild.innerText = '';
+            }
+            this.lastElementChild.className = "detail"; this.lastElementChild.innerText = '111我是1'
+        }
+    }
+</script>
+
+</html>

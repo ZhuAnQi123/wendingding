@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+        .header {
+            width: 808px;
+            height: 50px;
+            position: relative;
+        }
+
+        .header li {
+            float: left;
+            height: 50px;
+            width: 200px;
+            border: 1px solid gray;
+        }
+
+        .active {
+            border: 1px solid orangered;
+            background-color: palegoldenrod;
+        }
+
+        #tabItem {
+            margin-left: 200px;
+            margin-top: 50px;
+        }
+
+
+
+        .tab-content {
+            height: 400px;
+            width: 808px;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            display: none;
+        }
+
+        .current {
+            display: block
+        }
+
+        .xixi {
+            height: 50px;
+            width: 808px;
+            border: plum 1px dotted;
+            text-align: center;
+        }
+
+        .nagtive {
+            height: 120px;
+            width: 808px;
+            border: palevioletred 1px solid;
+            background-color: thistle;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <ul class="header">
+        <li data-index="0" class="active">电影</li>
+        <li data-index="1" class="">电视剧</li>
+        <li data-index="2" class="">综艺</li>
+        <li data-index="3" class="">动漫</li>
+    </ul>
+    <div class="tab-content">
+        <li class="nagtive">我和我的祖国</li>
+        <li>罗小黑</li>
+        <li>哪吒传奇</li>
+        <li>张三李四</li>
+        <li>绝命毒师</li>
+        <li>名侦探柯南</li>
+    </div>
+    <div class="tab-content">
+        <li class="nagtive">无耻家族</li>
+        <li>搞笑一家人</li>
+        <li>瑞克和莫蒂</li>
+        <li>狠毒女人</li>
+        <li>了不起的麦瑟尔夫人</li>
+        <li>堕落街传奇</li>
+    </div>
+    <div class="tab-content">
+        <li class="nagtive">快乐大本营</li>
+        <li>西游记</li>
+        <li>快乐大本营</li>
+        <li>张三李四</li>
+        <li>绝命毒师</li>
+        <li>名侦探柯南</li>
+    </div>
+    <div class="tab-content current">
+        <li class="nagtive">爱死亡和机器人</li>
+        <li>海贼王</li>
+        <li>哪吒传奇</li>
+        <li>张三李四</li>
+        <li>绝命毒师</li>
+        <li>名侦探柯南</li>
+    </div> -->
+</body>
+<script>
+    //001提供构造函数
+    function Manager() {
+        this.root = null;
+    }
+
+    //002设置原型对象
+    Manager.prototype = {
+        //对下面函数的调用
+
+        init: function () {
+            this._creat();
+            this._insert();
+            this.achieve();
+        },
+
+        //创建节点
+        _creat: function () {
+            this.root = document.createElement("div");
+            this.root.id = 'biggest';
+            var html = ` <ul class="header">
+        <li data-index="0" class="active">电影</li>
+        <li data-index="1" class="">电视剧</li>
+        <li data-index="2" class="">综艺</li>
+        <li data-index="3" class="">动漫</li>
+    </ul>
+    <div class="tab-content current">
+        <li class="xixi nagtive">我和我的祖国</li>
+        <li class="xixi">罗小黑</li>
+        <li class="xixi">哪吒传奇</li>
+        <li class="xixi">张三李四</li>
+        <li class="xixi">绝命毒师</li>
+        <li class="xixi">名侦探柯南</li>
+    </div>
+    <div class="tab-content">
+        <li class="nagtive xixi">无耻家族</li>
+        <li class="xixi">搞笑一家人</li>
+        <li class="xixi">瑞克和莫蒂</li>
+        <li class="xixi">狠毒女人</li>
+        <li class="xixi">了不起的麦瑟尔夫人</li>
+        <li class="xixi">堕落街传奇</li>
+    </div>
+    <div class="tab-content">
+        <li class="nagtive xixi">快乐大本营</li>
+        <li class="xixi">西游记</li>
+        <li class="xixi">快乐大本营</li>
+        <li class="xixi">张三李四</li>
+        <li class="xixi">绝命毒师</li>
+        <li class="xixi">名侦探柯南</li>
+    </div>
+    <div class="tab-content">
+        <li class="nagtive xixi">爱死亡和机器人</li>
+        <li class="xixi">海贼王</li>
+        <li class="xixi">哪吒传奇</li>
+        <li class="xixi">张三李四</li>
+        <li class="xixi">绝命毒师</li>
+        <li class="xixi">名侦探柯南</li>
+    </div>`
+            this.root.innerHTML = html;
+        },
+        //插入节点
+        _insert: function () {
+            document.body.appendChild(this.root);
+        },
+        //实现功能
+        achieve: function () {
+
+            //1.上面的ul点那个就高亮&对应的div显示
+            var header = this.root.querySelector(".header");
+            var lis = header.children;
+            var items = this.root.querySelectorAll(".tab-content");
+            var titles = this.root.querySelectorAll(".current .xixi");
+
+            //要拿外面的this。外面的this指向实例对象
+
+            var self = this;
+            header.onclick = function (ev) {
+                var index = ev.target.dataset.index;
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].className = '';
+                    items[i].classList.remove("current");
+                }
+                ev.target.className = 'active';
+                items[index].classList.add('current');
+
+                //如果这里直接写this指向的就是当前点击的东西.不可
+                titles = self.root.querySelectorAll(".current .xixi")
+
+            }
+
+
+            //要让他只在class名为current的div下循环
+            console.log(titles)
+
+            var num = 0;
+            setInterval(function () {
+                num++;
+                for (var i = 0; i < titles.length; i++) {
+                    titles[i].classList.remove("nagtive");
+                }
+                if (num > 5) {
+                    num = 0;
+                }
+                titles[num].classList.add('nagtive');
+            }, 1000)
+
+        }
+
+    };
+    //003创建实例对象--调用原型对象
+    var manager = new Manager();
+    manager.init();
+
+</script>
+
+</html>

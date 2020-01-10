@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX&构造函数&JQ</title>
+    <style>
+        .long {
+            width: 500px;
+            height: 300px;
+            border: chartreuse 1px solid;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item {
+            width: 3000px;
+            position: absolute;
+            left: 0;
+        }
+
+        .lis {
+            width: 500px;
+            height: 300px;
+            border: violet 1px solid;
+            /* background: url(./img/1.jpg); */
+            background-size: contain;
+            float: left;
+        }
+
+
+
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .little li {
+            background-color: yellow;
+            border-radius: 50%;
+            color: white;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            box-sizing: border-box;
+            padding-top: 5px;
+            padding-left: 9px;
+            font-weight: 800;
+            float: left;
+            z-index: 99;
+
+        }
+
+        .little {
+            left: 340px;
+            bottom: 3px;
+            width: 160px;
+            height: 30px;
+            position: absolute;
+        }
+    </style>
+</head>
+<script src="../代码/jquery-3.4.1.js"></script>
+
+<body>
+    <!-- <div class="long">
+        <ul class="item">
+            <li class="lis" style="background: url(./img/1.jpg)"></li>
+            <li class="lis"></li>
+            <li class="lis"></li>
+            <li class="lis"></li>
+            <ul class="little">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+        </ul>
+    </div> -->
+</body>
+<script>
+    //1.AJAX请求
+    $(() => {
+        $.ajax({
+            type: "get",
+            url: "./02-getData.php",
+            dataType: "json",
+            success: function (data) {
+                //2.构造函数
+                (new Manager(data)).init();
+            }
+        });
+    })
+
+    class Manager {
+        constructor(data) {
+            this.root = null;
+            this.data = data;
+        }
+        init() {
+            this.bulidpage();
+            this.move();
+        }
+        bulidpage() {
+            this.root = $("<div class='long'></div>").appendTo(document.body);
+
+            let html1 = this.data.map((ele, index) => `
+            <li class="lis" style="background: url(${ele})"></li>
+           `).join('');
+            let html0 = `<ul class="item">
+                ${html1}
+                <ul class="little">
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+            </ul>`;
+            this.root.html(html0);
+        }
+
+        move() {
+            let num = 0;
+            setInterval(function () {
+
+                num -= ($('.lis').css('width').slice(0, 3) - 0);
+                if (-$('.item').css('width').slice(0, 4) > num) {
+                    num = 0;
+                }
+                console.log(num);
+
+                $('.item').css('left', num)
+
+            }, 1000);
+        }
+
+
+    }
+
+
+
+
+</script>
+
+</html>

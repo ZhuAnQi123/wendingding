@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>练习参考鼠标跟随一连串效果</title>
+    <style>
+        .yuan {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: blue;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="yuan"></div> -->
+</body>
+<script>
+    function color() {
+        var a = "0123456789abcdef";
+        var res = "#";
+        for (var i = 0; i < 6; i++) {
+            var index = parseInt(Math.random() * a.length)
+            res += a[index]
+        }
+        return res;
+    }
+    //1.监听鼠标，鼠标按下创建div。
+
+    var arr = [];
+    document.onmousemove = function (e) {
+        e = e || window.event;
+        var odiv = document.createElement('div');
+        arr.push(odiv);
+        odiv.className = 'yuan';
+
+        var left = e.clientX;
+        var top = e.clientY;
+        //判断临界。
+        if (top > window.innerHeight) {
+            top = window.innerHeight
+        }
+        if (left > window.innerWidth) {
+            left = window.innerWidth
+        }
+
+        odiv.style.left = left + 'px';
+        odiv.style.top = top + 'px';
+
+        //背景颜色不断切换
+        var fuck = color();
+        odiv.style.backgroundColor = fuck;//这个不用加双引号！！嘻嘻嘻嘻
+
+        // document.body.appendChild(odiv);
+        if (arr.length > 20) {
+            arr.shift();
+        }
+        console.log(arr);
+        document.body.innerHTML = "";
+        for (var i = 0; i < arr.length; i++) {
+            document.body.appendChild(arr[i]);
+            arr[i].innerText = i;   //这里不能用odiv这样就不能将每一个区别开
+        }
+
+        //4.设置div的长度对多为20.
+
+        //错误写法！因为从页面取得的元素可读不可写！！！！！！！
+        // var balls = document.getElementsByTagName('div');
+        // console.log(balls.length)
+        // balls.length = 20;
+    }
+
+
+
+
+
+</script>
+
+</html>

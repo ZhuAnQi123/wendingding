@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    img {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 300px;
+        height: 500px;
+        display: none;
+    }
+
+    .close {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        bottom: 480px;
+        right: 0;
+    }
+</style>
+
+<body>
+    <div>
+        <img src="../code/src/123.png" alt="">
+        <img class="close" src="../code/src/close.png" alt="">
+    </div>
+</body>
+<script src="../code/jquery-3.4.1.js"></script>
+<script>
+    $(() => {
+        //网页打开后5s出现
+
+
+        $('img').delay(2000).show(500)
+
+        //出现5s后消失
+
+        $('img').delay(6000).hide(500)
+
+
+
+        $('.close').click(function () {
+            $('img').hide(1000)
+        })
+    })
+
+</script>
+
+</html>

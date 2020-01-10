@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>框架写小米闪购</title>
+    <link rel="stylesheet" href="../code/widget-master/public/image/favicon.png">
+    <link rel="stylesheet" href="../code/widget-master/public/style/cssreset-min.css">
+    <link rel="stylesheet" href="../code/widget-master/public/style/common.css">
+    <style type="text/css">
+        .slider {
+            position: relative;
+            overflow: hidden;
+            height: 150px;
+            margin: 0 auto 10px;
+        }
+
+
+
+        .slider .content li {
+            float: left;
+            width: 234px;
+            height: 339px;
+            border-top: 1px solid yellow;
+            background-color: tan;
+        }
+
+        .style1 {
+            width: 960px;
+            height: 400px;
+
+        }
+
+        .style1 .container {
+            width: 900px;
+            height: 400px;
+            margin: 30px 30px;
+            overflow: hidden;
+        }
+
+        .style1 .content li {
+            float: left;
+            margin: 0 10px;
+        }
+
+        .style1 .content li.w24 {
+            width: 240px;
+        }
+
+        .whole {
+            margin-top: 10px;
+            position: relative;
+            height: 430px;
+        }
+
+        .prev,
+        .next {
+            width: 30px;
+            height: 22px;
+            line-height: 22px;
+            border: grey 1px solid;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .prev {
+            left: 837px;
+            padding-left: 15px;
+
+        }
+
+        .next {
+            left: 884px;
+            /* box-sizing: border-box; */
+            padding-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="whole">
+
+        <div class="slider style1 slider1">
+            <span class="prev">&lt;</span>
+            <span class="next">&gt;</span>
+            <div class="container">
+                <ul class="content">
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../code/lib/jquery-3.4.1.js"></script>
+<script src="../code/widget-master/public/script/jquery.min.js"></script>
+<script src="../code/widget-master/code/jquery.slider.js"></script>
+<script>$(".slider1").slider({ inEndEffect: "cycle", steps: 2, auto: true, duration: 300, delay: 5000 });</script>
+
+</html>

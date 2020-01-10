@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .rick {
+            background-image: url(./img/2.jpg);
+            background-size: cover;
+            height: 200px;
+            width: 300px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rick"></div>
+</body>
+<script src="../code/client/lib/Cookie.js"></script>
+<script>
+    let rick = document.querySelector('.rick');
+    rick.onmousedown = (e) => {
+        //盒子左上点的坐标=clientX -rickx
+        var clickx = e.offsetX;
+        var clicky = e.offsetY;
+
+        document.onmousemove = (e) => {
+            let rickx = e.pageX - clickx;
+            let ricky = e.pageY - clicky;
+            if (rickx < 0) {
+                rickx = 0
+            } if (ricky < 0) {
+                ricky = 0
+            } if (rickx > window.innerWidth - rick.offsetWidth) {
+                rickx = window.innerWidth - rick.offsetWidth
+            } if (ricky > window.innerHeight - rick.offsetHeight) {
+                ricky = window.innerHeight - rick.offsetHeight
+            }
+
+            rick.style.left = rickx + 'px';
+            rick.style.top = ricky + 'px';
+
+        }
+
+    }
+
+
+
+    window.onmouseup = () => {
+        document.onmousemove = null;
+        let left = rick.style.left        
+        let top = rick.style.top
+        Cookie.setItem('left', left, 7)
+        Cookie.setItem('right', top, 7)
+    }
+    
+</script>
+
+</html>
